@@ -8,6 +8,14 @@ import analysis.main as analysis
 def main() -> None:
     """
     Main function of the application, responsible for starting the application as a whole.
+
+    Parameters
+    ----------
+        None
+        
+    Returns
+    -------
+        None
     """
     ...
 
