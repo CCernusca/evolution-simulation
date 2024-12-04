@@ -11,11 +11,11 @@ class Simulation:
     Attributes
     ----------
         creature_start_count : int
-                               The number of creatures the simulation starts with.
+            The number of creatures the simulation starts with.
         creatures : list[creatures.Creature]
-                    The creatures inhabiting the simulation.
+            The creatures inhabiting the simulation.
         traits : list[traits.Trait]
-                 The mutatable traits of the simulation, which the simulation passes on to its creatures at their creation.
+            The mutatable traits of the simulation, which the simulation passes on to its creatures at their creation.
     """
 
     def __init__(self, creature_start_count: int, *trait_list: traits.Trait) -> None:
@@ -25,13 +25,9 @@ class Simulation:
         Parameters
         ----------
             creature_start_count : int
-                                   The number of creatures the simulation starts with.
+                The number of creatures the simulation starts with.
             trait_list : list[traits.Trait]
-                         The mutatable traits of the simulation, which the simulation passes on to its creatures at their creation.
-        
-        Returns
-        -------
-            None
+                The mutatable traits of the simulation, which the simulation passes on to its creatures at their creation.
         """
         self.creature_start_count: int = creature_start_count
         self.traits: dict[str: traits.Trait] = {trait.name: trait for trait in trait_list}
@@ -55,3 +51,12 @@ class Simulation:
             return {name: self.traits[name].copy() for name in self.traits}
         else:
             return self.traits
+    
+    def cycle(self) -> None:
+        """
+        Runs one cycle of all creatures in the simulation.
+        """
+        creatures_copy = self.creatures.copy()
+        for creature in self.creatures.values():
+            creature.cycle(creatures_copy)
+        self.creatures.update(creatures_copy)
