@@ -18,7 +18,7 @@ class Simulation:
                  The mutatable traits of the simulation, which the simulation passes on to its creatures at their creation.
     """
 
-    def __init__(self, creature_start_count: int) -> None:
+    def __init__(self, creature_start_count: int, *trait_list: traits.Trait) -> None:
         """
         Initializes a simulation.
 
@@ -26,26 +26,32 @@ class Simulation:
         ----------
             creature_start_count : int
                                    The number of creatures the simulation starts with.
+            trait_list : list[traits.Trait]
+                         The mutatable traits of the simulation, which the simulation passes on to its creatures at their creation.
         
         Returns
         -------
             None
         """
         self.creature_start_count: int = creature_start_count
-        self.creatures: list[creatures.Creature] = [''] * creature_start_count
-        self.traits: list[traits.Trait] = []
-
-    def add_trait(self, trait: traits.Trait) -> None:
+        self.traits: dict[str: traits.Trait] = {trait.name: trait for trait in trait_list}
+        self.creatures: dict[int: creatures.Creature] = {i: creatures.Creature(i, *self.traits) for i in range(creature_start_count)}
+    
+    def get_traits(self, copy: bool = False) -> dict[str: traits.Trait]:
         """
-        Adds a new mutatable trait of creatures to the simulation.
+        Retrieves the traits of the simulation.
 
         Parameters
         ----------
-            trait : traits.Trait
-                    The trait to add.
-        
+            copy : bool, optional
+                If True, returns a copy of each trait; otherwise, returns the original traits.
+
         Returns
         -------
-            None
+            dict[str: traits.Trait]
+                A dictionary of traits, where the key is the name of the trait and the value is the trait itself.
         """
-        self.traits.append(trait)
+        if copy:
+            return {name: self.traits[name].copy() for name in self.traits}
+        else:
+            return self.traits
