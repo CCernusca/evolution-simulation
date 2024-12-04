@@ -31,8 +31,19 @@ class Simulation:
         """
         self.creature_start_count: int = creature_start_count
         self.traits: dict[str: traits.Trait] = {trait.name: trait for trait in trait_list}
-        self.creatures: dict[int: creatures.Creature] = {i: creatures.Creature(i, *self.traits) for i in range(creature_start_count)}
+        self.creatures: dict[int: creatures.Creature] = {i: creatures.Creature(i, *self.traits.values()) for i in range(creature_start_count)}
     
+    def __repr__(self) -> str:
+        """
+        Returns a string representation of the simulation, containing the number of creatures and the traits.
+
+        Returns
+        -------
+            str
+                A string representation of the simulation.
+        """
+        return f"{self.__class__.__name__}({self.creature_start_count}, {self.traits})"
+
     def get_traits(self, copy: bool = False) -> dict[str: traits.Trait]:
         """
         Retrieves the traits of the simulation.

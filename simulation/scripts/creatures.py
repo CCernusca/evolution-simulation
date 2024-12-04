@@ -29,6 +29,17 @@ class Creature:
         self.id = id
         self.traits = {trait.name: trait for trait in trait_list}
     
+    def __repr__(self) -> str:
+        """
+        Returns a string representation of the creature, containing its id and traits.
+
+        Returns
+        -------
+            str
+                A string representation of the creature.
+        """
+        return f"{self.__class__.__name__}({self.id}, {self.traits})"
+
     def get_traits(self, copy: bool = False) -> dict[str: traits.Trait]:
         """
         Retrieves the traits of the creature.

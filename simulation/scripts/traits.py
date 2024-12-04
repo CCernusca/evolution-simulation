@@ -32,6 +32,17 @@ class Trait:
         self.name = name
         self.value = value
     
+    def __repr__(self) -> str:
+        """
+        Returns a string representation of the trait, containing its name and value.
+
+        Returns
+        -------
+            str
+                A string representation of the trait.
+        """
+        return f"{self.__class__.__name__}({self.name}, {self.value})"
+    
     def copy(self) -> 'Trait':
         """
         Creates a copy of the trait.
